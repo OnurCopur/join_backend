@@ -38,20 +38,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
-    'join_api'
+    'corsheaders',  # CORS middleware
+    'join_api',     # Dein API App
+    # 'users'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # CORS Middleware muss vor der CSRF-Middleware kommen
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True  # Ermöglicht CORS von allen Ursprüngen (in Entwicklung sinnvoll)
+
+# Alternativ könntest du explizit Origins erlauben:
+# CORS_ALLOWED_ORIGINS = [
+#     "http://127.0.0.1:5500",  # Dein Frontend-URI
+#     "http://localhost:3000",   # Optional, wenn du z.B. React verwendest
+# ]
 
 ROOT_URLCONF = 'join_backend.urls'
 
@@ -128,6 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://join.onur-copur.de",
-    "http://localhost:3000"
+    "http://127.0.0.1:5500",  # Frontend-URI
+    "http://localhost:3000",   # Optional, wenn du z.B. React verwendest
 ]
+
+
+# 'AUTH_USER_MODEL = 'users.CustomUser'  # Optional, wenn du ein benutzerdefiniertes User-Modell verwendest
