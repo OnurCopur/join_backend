@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',  # CORS middleware
-    'join_api',     # Dein API App
-    # 'users'
+    'rest_framework.authtoken',
+    'corsheaders',
+    'join_api',
+    'user_auth_app'
 ]
 
 MIDDLEWARE = [
@@ -137,9 +138,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",  # Frontend-URI
-    "http://localhost:3000",   # Optional, wenn du z.B. React verwendest
+    "http://127.0.0.1:5500",
+    "http://localhost:3000", 
 ]
 
 
-# 'AUTH_USER_MODEL = 'users.CustomUser'  # Optional, wenn du ein benutzerdefiniertes User-Modell verwendest
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}

@@ -3,7 +3,17 @@ from django.db import models
 
 # Modell für Kontakte
 class Contact(models.Model):
-    color = models.CharField(max_length=20, null=True)
+    color = models.CharField(max_length=20, null=True, choices=[
+        ("#3380FF", "#3380FF"),
+        ("#1d6331", "#1d6331"),
+        ("#FFEA33", "#FFEA33"),
+        ("#FF5733", "#FF5733"),
+        ("#7A33FF", "#7A33FF"),
+        ("#FF33C1", "#FF33C1"),
+        ("#33E6FF", "#33E6FF"),
+        ("#FF33A2", "#FF33A2"),
+        ("#33FFF1", "#33FFF1"),
+    ])
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     number = models.IntegerField(null=True, blank=True)
@@ -25,12 +35,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-
-# Modell für Benutzer
-class User(models.Model):
-    email = models.EmailField(unique=True)
-    name = models.CharField(max_length=100)
-    password = models.CharField(max_length=200)  # Speichern des Passworts (sicher verschlüsseln!)
-
-    def __str__(self):
-        return self.name
