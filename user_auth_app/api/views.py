@@ -4,7 +4,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer, GuestLoginSerializer
+from rest_framework.permissions import AllowAny
 
 
 class UserListView(APIView):
@@ -76,3 +77,13 @@ class LogoutView(APIView):
             return Response({'message': 'Successfully logged out'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class GuestLoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = GuestLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.save(), status=200)
+        return Response(serializer.errors, status=400)

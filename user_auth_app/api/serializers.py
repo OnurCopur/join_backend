@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from ..validators import CustomUsernameValidator
+from rest_framework.authtoken.models import Token
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -39,3 +40,19 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)  # Jetzt wird die E-Mail abgefragt
     password = serializers.CharField(write_only=True, required=True)
+
+
+class GuestLoginSerializer(serializers.Serializer):
+    username = serializers.CharField(default='guest', required=False)
+
+    def create(self, validated_data):
+        # Gast-Benutzer anlegen (ohne Passwort)
+        username = validated_data.get('username', 'guest')
+        user, created = User.objects.get_or_create(username=username)
+
+        # Erstelle oder hole das Token für diesen Benutzer
+        token, created = Token.objects.get_or_create(user=user)
+
+        return {
+            'token': token.key
+        }
